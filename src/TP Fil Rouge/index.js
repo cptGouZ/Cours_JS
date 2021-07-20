@@ -56,10 +56,7 @@ function supprimer(event){
 }
 
 function control(savoir, auteur, date){
-    if(savoir.value !== ''
-    && auteur.value !== ''
-    && date.value !== ''){
-        return true;
-    }
-    return false;
+    return  savoir.value !== ''
+            && auteur.value !== ''
+            && date.value !== '';
 }
