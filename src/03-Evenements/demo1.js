@@ -17,6 +17,8 @@ function validerSaisie(){
 }
 
 function clickBouton2(event){
+    console.log('objet qui déclenche l\'event' + event.target)
+    console.log('objet qui supporte le listener' + event.currentTarget)
     console.log('Clic sur le bouton 2' + event);
     alert('Clic bouton 2');
 }
