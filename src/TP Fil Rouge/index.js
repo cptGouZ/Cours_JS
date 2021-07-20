@@ -1,15 +1,17 @@
 window.addEventListener('load', init);
 let idx = 0;
-
+let savoir;
+let auteur;
+let date;
 function init(){
     document.getElementById('ajout').addEventListener('click', ajouter);
+    savoir = document.getElementById('savoir');
+    auteur = document.getElementById('auteur');
+    date = document.getElementById('date')
     clearInputs();
 }
 
 function ajouter(){
-    let savoir = document.getElementById('savoir');
-    let auteur = document.getElementById('auteur');
-    let date = document.getElementById('date')
     if(control(savoir, auteur, date)) {
         let orderedList = document.getElementsByTagName('ol')[0];
         let titre = document.createElement('h1');
@@ -40,6 +42,7 @@ function clearInputs(){
     savoir.value = "";
     auteur.value = "";
     date.valueAsDate= new Date(Date.now());
+    savoir.focus();
 }
 
 function supprimer(event){
