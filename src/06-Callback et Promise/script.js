@@ -17,9 +17,17 @@ window.addEventListener('load', ()=>{
 })
 //Callback
 function alertMsg(callback){
-    const msg = document.querySelector('input[name="messageCallback"]').value;
-    alert(msg);
-    callback(msg);
+    console.log('debutCallBack');
+    setTimeout( function(){
+        console.log('début traitement asynchrone');
+        if(Date.now().valueOf() % 2 === 0){
+            callback('Callback Success');
+        }else{
+            callback('Callback Failed');
+        }
+        console.log('fin traitement asynchrone');
+    }, 2000);
+    console.log('finCallBack');
 }
 
 //Promise : traitement des appels asynchrones
@@ -43,5 +51,5 @@ function enregistrer(data){
 
 
 function afficherResultat(message){
-    console.log('Success' + message);
+    console.log(message);
 }
