@@ -1,16 +1,20 @@
-window.addEventListener('load', init);
+window.addEventListener('load', finChargementPage);
+function finChargementPage(){
+    init();
+    document.getElementById('ajout').addEventListener('click', ajouter);
+    document.querySelectorAll('.trier').forEach((btn)=>{
+        const tri = btn.dataset.search;
+        btn.addEventListener('click', function(){
+            trierSavoir(tri);
+            afficherListe();
+        });
+    })
+}
 function init(){
     document.getElementById('savoir').value = "";
     document.getElementById('auteur').value = "";
     document.getElementById('date').valueAsDate= new Date(Date.now());
-
     document.getElementById('savoir').focus();
-    document.getElementById('ajout').addEventListener('click', ajouter);
-
-    document.getElementById('sortName').addEventListener('click', setSortMethod);
-    document.getElementById('sortRevName').addEventListener('click', setSortMethod);
-    document.getElementById('sortDate').addEventListener('click', setSortMethod);
-    document.getElementById('sortRevDate').addEventListener('click', setSortMethod);
 }
 
 function ajouter(){
@@ -28,38 +32,29 @@ function ajouter(){
     }
 }
 
-function setSortMethod(event){
-    sortMethod = event.currentTarget.id
-    afficherListe();
-}
-
 function supprimer(event){
     let savoir = getSavoirs()[event.currentTarget.id];
     if(confirm('Etes-vous sûr de vouloir supprimer : ' + savoir.savoir)) {
-        supprimerSavoir(savoir);
+        supprimerSavoir(event.currentTarget.id);
         afficherListe();
     }
 }
 
 function afficherListe(){
-    sort();
     let elOl = document.querySelector('ol');
-    let idx = 0;
-    elOl.querySelectorAll('li').forEach(value => value.remove());
-    for (const objSavoir of getSavoirs()) {
-
+    elOl.innerHTML = '';
+    getSavoirs().forEach((objSavoir, index) => {
         let elPSavoir = document.createElement('p');
         let elPInfos = document.createElement('p');
         elPSavoir.innerText = objSavoir.savoir;
         elPInfos.innerText = `Par ${objSavoir.auteur} le ${objSavoir.date.toLocaleDateString()}`;
 
         let elLi = document.createElement('li');
-        elLi.id=idx;
+        elLi.id=index;
         elLi.addEventListener('click', supprimer);
         elLi.append(elPSavoir);
         elLi.append(elPInfos);
 
         elOl.append(elLi);
-        idx++;
-    }
+    })
 }
