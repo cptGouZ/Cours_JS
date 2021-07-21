@@ -50,7 +50,7 @@ function afficherListe(){
         elPInfos.innerText = `Par ${objSavoir.auteur} le ${objSavoir.date.toLocaleDateString()}`;
 
         let elLi = document.createElement('li');
-        elLi.id=index;
+        elLi.id=index.toString(10);
         elLi.addEventListener('click', supprimer);
         elLi.append(elPSavoir);
         elLi.append(elPInfos);
