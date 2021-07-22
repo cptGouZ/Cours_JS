@@ -9,7 +9,6 @@ function finChargementPage(){
             afficherListe();
         });
     })
-    loadSavoirs();
     afficherListe();
 }
 function init(){
