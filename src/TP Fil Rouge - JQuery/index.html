@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-3.6.0.js"></script>
+    <script src="bo.js"></script>
+    <script src="serviceLocalStorage.js"></script>
+    <script src="controleur.js"></script>
+</head>
+<body>
+    <div>
+        <label for="savoir">Savoir : </label><input type="text" id="savoir"/>
+    </div>
+    <div>
+        <label for="auteur">Auteur : </label><input type="text" id="auteur"/>
+    </div>
+        <label for="date">Auteur : </label><input type="date" id="date"/>
+    </div>
+    <div>
+        <button id="ajout">ajouter</button>
+    </div>
+    <div>
+        <button class="trier" data-search="sortName">Tri par auteur</button>
+        <button class="trier" data-search="sortRevName">Tri inverse par auteur</button>
+        <button class="trier" data-search="sortDate">Tri par Date</button>
+        <button class="trier" data-search="sortRevDate">Tri invers par Date</button>
+    </div>
+
+    <ol></ol>
+</body>
+</html>
