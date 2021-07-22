@@ -45,6 +45,7 @@ jQuery( ($) =>{
     });
 
     //Délégation d'évènements
+    //$(parent).on(action, enfant, action)
     $('.equipage').on('click', '.marin', function (event){
        //event.currentTarget.remove();
 

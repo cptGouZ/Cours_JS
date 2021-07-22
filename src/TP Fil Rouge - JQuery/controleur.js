@@ -2,8 +2,7 @@ $(document).ready(finChargementPage);
 
 function finChargementPage(){
     init();
-/*    $('#ajout').click(ajouter);
-    $('.trier').each( (idx)=>{
+/*  $('.trier').each( (idx)=>{
         const btn=$('.trier')[idx];
         const tri = $(btn).data("search");
         $(btn).click( ()=>{
@@ -11,6 +10,7 @@ function finChargementPage(){
             afficherListe();
         });
     })*/
+
 // autre solution avec THIS
     $('.trier').click(function (){
         const tri = $(this).data('search');
@@ -18,12 +18,17 @@ function finChargementPage(){
         afficherListe();
     })
 
+    $('#ajout').click(ajouter);
     afficherListe();
+
+    //Délégation d'évènement
+    //$(parent).on(action, enfant, action)
+    $('ol').on('click', 'li', supprimer)
 }
 function init(){
     $('#savoir').val("");
     $('#auteur').val("");
-    $('#date').val(new Date(Date.now()).toJSON().slice(0,10));
+    $('#date')[0].valueAsDate = new Date(Date.now());
     $('#savoir').focus();
 }
 
@@ -31,7 +36,7 @@ function ajouter(){
     let savoir = new SavoirInutile(
         $('#savoir').val(),
         $('#auteur').val(),
-        new Date($('#date').val())
+        $('#date')[0].valueAsDate
     );
     if(savoir.control()) {
         ajouterSavoir(savoir);
@@ -43,19 +48,21 @@ function ajouter(){
 }
 
 function supprimer(event){
-    let savoir = getSavoirs()[event.currentTarget.id];
-    if(confirm('Etes-vous sûr de vouloir supprimer : ' + savoir.savoir)) {
-        supprimerSavoir(event.currentTarget.id);
+    const savoir =$(event.currentTarget);
+    const libelle = savoir.find('.savoir').html();
+    if(confirm('Etes-vous sûr de vouloir supprimer : ' + libelle)) {
+        supprimerSavoir(savoir.attr('id'));
         afficherListe();
     }
 }
 
 function afficherListe(){
     let elOl = $('ol');
-    elOl.html('');
+    elOl.empty();
     getSavoirs().forEach((objSavoir, index) => {
         let elSavoir = $('<p>', {
-            text: objSavoir.savoir
+            text: objSavoir.savoir,
+            class: 'savoir'
         });
 
         let elInfos = $('<p>');
@@ -66,9 +73,7 @@ function afficherListe(){
             click: supprimer
         });
 
-        elLi.append(elSavoir);
-        elLi.append(elInfos);
-
+        elLi.append(elSavoir).append(elInfos);
         elOl.append(elLi);
     })
 }
