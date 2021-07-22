@@ -1,0 +1,38 @@
+*{
+    font-family: Arial;
+}
+div{
+    margin: 10px;
+}
+button{
+    margin: 10px;
+}
+#capitaine
+{
+    border: solid 2px red;
+    width: fit-content;
+    padding: 10px;
+}
+.marin
+{
+    background-color: darkblue;
+    color: white;
+    font-weight: bolder;
+    width: fit-content;
+    padding: 20px;
+    float: left;
+}
+.equipage{
+    height: 80px;
+}
+
+.bateau
+{
+    float: left;
+    width:200px;
+    background-color: steelblue;
+    color: white;
+    font-weight: bolder;
+    padding: 30px;
+    text-align: center;
+}

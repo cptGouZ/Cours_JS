@@ -15,7 +15,7 @@ window.addEventListener('load', ()=>{
                 })
         })
 })
-//Callback
+//Callback : traitement des appels asynchrones sans retour succes echoué
 function alertMsg(callback){
     console.log('debutCallBack');
     setTimeout( function(){
@@ -30,7 +30,7 @@ function alertMsg(callback){
     console.log('finCallBack');
 }
 
-//Promise : traitement des appels asynchrones
+//Promise : traitement des appels asynchrones avec un retour succes echoué
 function enregistrer(data){
     console.log('début enregistrement');
     return new Promise(((resolve, reject) => {
