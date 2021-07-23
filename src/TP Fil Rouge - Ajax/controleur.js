@@ -2,27 +2,14 @@ $(document).ready(finChargementPage);
 
 function finChargementPage(){
     init();
-/*  $('.trier').each( (idx)=>{
-        const btn=$('.trier')[idx];
-        const tri = $(btn).data("search");
-        $(btn).click( ()=>{
-            trierSavoir(tri);
-            afficherListe();
-        });
-    })*/
-    loadSavoirs();
-// autre solution avec THIS
+    $('#ajout').click(ajouter);
     $('.trier').click(function (){
         const tri = $(this).data('search');
         trierSavoir(tri);
         afficherListe();
     })
 
-    $('#ajout').click(ajouter);
     afficherListe();
-
-    //Délégation d'évènement
-    //$(parent).on(action, enfant, action)
     $('ol').on('click', 'li', supprimer)
 }
 function init(){
@@ -39,9 +26,14 @@ function ajouter(){
         $('#date')[0].valueAsDate
     );
     if(savoir.control()) {
-        ajouterSavoir(savoir);
-        afficherListe();
-        init();
+        ajouterSavoir(savoir)
+            .then(()=>{
+                afficherListe();
+                init()
+            })
+            .catch(()=>{
+                alert('erreur ajout')}
+            );
     }else{
         alert('tous les champs doivent être remplis')
     }
@@ -51,29 +43,41 @@ function supprimer(event){
     const savoir =$(event.currentTarget);
     const libelle = savoir.find('.savoir').html();
     if(confirm('Etes-vous sûr de vouloir supprimer : ' + libelle)) {
-        supprimerSavoir(savoir.attr('id'));
-        afficherListe();
+        supprimerSavoir(savoir.data('uuid'))
+            .then(()=> {
+                afficherListe();
+                init()
+            })
+            .catch(()=>{
+                alert("erreur suppression");
+            });
     }
 }
 
-function afficherListe(){
-    let elOl = $('ol');
-    elOl.empty();
-    getSavoirs().forEach((objSavoir) => {
-        let elSavoir = $('<p>', {
-            text: objSavoir.savoir,
-            class: 'savoir'
-        });
+function afficherListe() {
+    getSavoirs()
+        .then((savoirs) => {
+            $('ol').empty();
+            savoirs.forEach((objSavoir) => {
+                let elSavoir = $('<p>', {
+                    text: objSavoir.savoir,
+                    class: 'savoir'
+                });
 
-        let elInfos = $('<p>');
-        elInfos.text(`Par ${objSavoir.auteur} le ${objSavoir.date.toLocaleDateString()}`);
+                let elInfos = $('<p>');
+                elInfos.text(`Par ${objSavoir.auteur} le ${objSavoir.date.toLocaleDateString()}`);
 
-        let elLi = $('<li>', {
-            id: objSavoir.uuid.toString(10),
-            click: supprimer
-        });
+                let elLi = $('<li>', {
+                    click: supprimer
+                });
+                elLi.data('uuid', objSavoir.uuid.toString(10))
 
-        elLi.append(elSavoir).append(elInfos);
-        elOl.append(elLi);
-    })
+                elLi.append(elSavoir).append(elInfos);
+                $('ol').append(elLi);
+            })
+        })
+        .catch(() => {
+
+            }
+        )
 }

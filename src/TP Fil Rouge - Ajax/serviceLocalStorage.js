@@ -2,51 +2,56 @@ let savoirs=[];
 const KEY_STORAGE = 'savoirs';
 const URL = "http://localhost:1234/"
 
-//savoirs = JSON.parse(localStorage.getItem(KEY_STORAGE)) ?? []
-function loadSavoirs() {
-    function getDatas(){
-        return new Promise((resolve)=> {
-            $.ajax({
-                url: URL,
-                method: 'GET'
-            })
-                .done((recup) => {
-                    savoirs = recup;
-                    resolve();
-                });
+function ajouterSavoir(objSavoir){
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            url: URL,
+            method: 'POST',
+            data: JSON.stringify(objSavoir)
         })
-    }
-    getDatas().then((retour)=>{
-        //Retraitement de chaque élement pour lui redonner son prototype + retraitement de la date
-        savoirs.forEach((value) => {
-            Object.setPrototypeOf(value, SavoirInutile.prototype);
-            value.date = new Date(value.date);
-        });
-        afficherListe();
+            .done(()=>{
+                resolve();
+            })
+            .fail(()=>{
+                reject();
+            });
     })
 }
 
+function supprimerSavoir(uuid){
+    return new Promise((resole,reject)=>{
+        $.ajax({
+            url: URL,
+            method: 'DELETE',
+            data: uuid
+        })
+            .done(()=>{
+                resolve();
+            })
+            .fail(()=>{
+                reject();
+            });
+    });
+}
 
-function ajouterSavoir(objSavoir){
-    $.ajax({
-        url: URL,
-        method: 'POST',
-        async: false,
-        data: JSON.stringify(objSavoir)
-    }).done();
-    loadSavoirs();
-}
-function supprimerSavoir(idSavoir){
-    $.ajax({
-        url: URL,
-        method: 'DELETE',
-        async: false,
-        data: idSavoir
-    }).done();
-    loadSavoirs();
-}
 function getSavoirs(){
-    return savoirs;
+    return new Promise((resolve, reject)=>{
+        $.ajax({
+            url: URL,
+            method: 'GET'
+        })
+            .done((dataDuGet) => {
+                data = date || [];
+                dataDuGet.forEach((value) => {
+                    Object.setPrototypeOf(value, SavoirInutile.prototype);
+                    value.date = new Date(value.date);
+                });
+                resolve(dataDuGet);
+            })
+            .fail(()=>{
+                reject();
+            });
+    });
 }
 function trierSavoir(tri){
     const sortMethod = tri || "sortDate";
